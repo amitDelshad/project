@@ -3,10 +3,10 @@ import Sites from '../components/Sites';
 import TopRow from '../components/TopRow';
 
 
-export default function Index() {
+export default function Index(setPage) {
   return (
     <div className="App">
-      <TopRow/>
+      <TopRow setPage = {setPage}/>
       <SearchBar/>
       <Sites/>
     </div>

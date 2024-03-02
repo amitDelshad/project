@@ -10,10 +10,9 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import dbHandler from '../db/dbHandler';
 
-const settings = ['Profile', 'Logout'];
-
-export default function TopRow() {
+export default function TopRow(setPage) {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const handleOpenUserMenu = (event) => {
@@ -23,6 +22,7 @@ export default function TopRow() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    const a = dbHandler.getUser.firstName;
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -48,7 +48,7 @@ export default function TopRow() {
                 <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                        <Avatar/>
                     </IconButton>
                     </Tooltip>
                     <Menu
@@ -67,11 +67,12 @@ export default function TopRow() {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                     >
-                    {settings.map((setting) => (
-                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center">{setting}</Typography>
-                        </MenuItem>
-                    ))}
+                    <MenuItem key={'Profile'} onClick={()=>{}}>
+                        <Typography textAlign="center">{'Profile'}</Typography>
+                    </MenuItem>
+                    <MenuItem key={'Logout'} onClick={()=>{setPage.setPage.setPage('')}}>
+                        <Typography textAlign="center">{'Logout'}</Typography>
+                    </MenuItem>
                     </Menu>
                 </Box>
                 </Toolbar>
