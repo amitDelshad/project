@@ -1,6 +1,7 @@
 import Index from './Pages/Index';
 import SingIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
+import Profile from './Pages/Profile';
 import { useState } from 'react';
 
 export default function App() {
@@ -18,6 +19,10 @@ export default function App() {
     case ('Index'):
       return (
         <Index setPage = {setPage}/>
+      );
+    case ('Profile'):
+      return (
+        <Profile setPage = {setPage}/>
       );
     default:
       return (

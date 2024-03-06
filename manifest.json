@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "Amit's Extention", 
+    "version": "1.0.0",
+    "icons": {
+        "16": "public/favicon.ico",
+        "48": "public/favicon.ico",
+        "128": "public/favicon.ico"
+    }
+}

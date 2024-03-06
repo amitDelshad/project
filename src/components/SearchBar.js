@@ -11,7 +11,7 @@ export default function SearchBar() {
           marginTop: '3%'
         }}
       >
-      <TextField fullWidth label="History" id="fullWidth" />
+      <TextField fullWidth label="Search" id="fullWidth" />
     </Box>
     );
   }
