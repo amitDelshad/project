@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -11,6 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import StarIcon from '@mui/icons-material/Star';
+import dbHandler from '../db/dbHandler';
 
 export default function TopRow(setPage) {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -24,26 +26,20 @@ export default function TopRow(setPage) {
     };
 
     const bookMarkHandler = () => {
-        alert('will handle the bookmark!');
+        const siteContent = document.documentElement.outerHTML;
+        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+            dbHandler.insertUrl(tabs[0].url, siteContent)
+        });
     }
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: 'white' }}/>
-                <IconButton sx={{
-                    mr: 2,
-                    display: { xs: 'none', md: 'flex' },
-                    fontFamily: 'monospace',
-                    fontWeight: 700,
-                    letterSpacing: '.3rem',
-                    color: 'inherit',
-                    textDecoration: 'none',
-                    }}
+                <IconButton
                     onClick={() => {setPage.setPage.setPage('Index')}}>
-                    Amit's Extension
+                    <AdbIcon fontSize='large' style={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: 'white' }}/>
                 </IconButton>
-                <IconButton style={{marginRight:'21%', color:'white', flexGrow: '1'}} onClick={() => {bookMarkHandler();}}>
+                <IconButton style={{marginRight:'0%', color:'white', flexGrow: '1'}} onClick={() => {bookMarkHandler();}}>
                     <StarIcon fontSize='large'/>
                 </IconButton>
                 <Box sx={{ flexGrow: 0 }}>

@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-export default function SearchBar() {
+export default function SearchBar({handleChange}) {
     return (
       <Box
         sx={{
@@ -11,7 +11,7 @@ export default function SearchBar() {
           marginTop: '3%'
         }}
       >
-      <TextField fullWidth label="Search" id="fullWidth" />
+      <TextField fullWidth label="Search" id="fullWidth" onChange={handleChange} />
     </Box>
     );
   }
