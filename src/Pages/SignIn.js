@@ -8,16 +8,27 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import dbHandler from '../db/dbHandler';
 
 const defaultTheme = createTheme();
 
-export default function SignIn(setPage) {
-  const handleSubmit = (event) => {
+export default function SignIn({setPage, setUser}) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if(data.get('email') === '' && data.get('password') === ''){
-      setPage.setPage('Index');
-    }
+    const users = await dbHandler.getUsers();
+    let tnay = true;
+    Promise.all(users.map(async (user) => {
+      if(data.get('username') === user.username && data.get('password') === user.password){
+        setPage('Index');
+        tnay = false;
+        await dbHandler.loadUser(`${user.username}?${user.password}`);
+        setUser(`${user.username}?${user.password}`);
+        sessionStorage.setItem('user', `${user.username}?${user.password}`);
+      }
+    }))
+    if(tnay) 
+      alert('Username or Password are incorrect!');
   };
 
   return (
@@ -43,10 +54,10 @@ export default function SignIn(setPage) {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
             />
             <TextField
@@ -67,7 +78,7 @@ export default function SignIn(setPage) {
             >
               Sign In
             </Button>
-            <Button onClick={()=>{setPage.setPage('SignUp')}} variant="body2" sx={{marginLeft: "38.5%"}}>
+            <Button onClick={()=>{setPage('SignUp')}} variant="body2" sx={{marginLeft: "38.5%"}}>
               {"Sign Up"}
             </Button>
           </Box>

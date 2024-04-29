@@ -13,16 +13,33 @@ import dbHandler from '../db/dbHandler';
 
 const defaultTheme = createTheme();
 
-export default function SignUp(setPage) {
-  const handleSubmit = (event) => {
+export default function SignUp({setPage, setUser}) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    dbHandler.insertUser({firstName: data.get('firstName'),
-                         lastName: data.get('lastName'),
-                         email: data.get('email'),
-                         password: data.get('password'),
-                         history: []});
-    setPage.setPage('Index');
+    if(data.get('username') === '' || data.get('password') === ''){
+      alert('Username and Password can not be empty');
+      return;
+    }
+    const users = await dbHandler.getUsers();
+    let tnay = true;
+    users.forEach((user) => {
+      if(data.get('username') === user.username){
+        alert('Username is taken!')
+        tnay = false;
+      }
+    })
+    if( tnay ){
+      await dbHandler.insertUser({firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      username: data.get('username'),
+      password: data.get('password'),
+      history: []});
+      await dbHandler.loadUser(`${data.get('username')}?${data.get('password')}`);
+      setPage('Index');
+      setUser(`${data.get('username')}?${data.get('password')}`);
+      sessionStorage.setItem('user', `${data.get('username')}?${data.get('password')}`);
+    }
   };
 
   return (
@@ -70,10 +87,10 @@ export default function SignUp(setPage) {
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="username"
+                  label="UserName"
+                  name="username"
+                  autoComplete="username"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -96,7 +113,7 @@ export default function SignUp(setPage) {
             >
               Sign Up
             </Button>
-              <Button onClick={()=>{setPage.setPage('SignIn')}} variant="body2" sx={{marginLeft: "38.5%"}}>
+              <Button onClick={()=>{setPage('SignIn')}} variant="body2" sx={{marginLeft: "38.5%"}}>
                 Sign in
               </Button>
           </Box>

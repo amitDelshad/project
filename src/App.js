@@ -6,15 +6,16 @@ import { useState } from 'react';
 
 export default function App() {
   const [page, setPage] = useState('');
+  const [user, setUser] = useState(sessionStorage.getItem('user'));
 
   switch(page) {
     case ('SignIn'):
       return (
-        <SingIn setPage = {setPage}/>
+        <SingIn setPage = {setPage} setUser={setUser}/>
       );
     case ('SignUp'):
       return (
-        <SignUp setPage = {setPage}/>
+        <SignUp setPage = {setPage} setUser={setUser}/>
       );
     case ('Index'):
       return (
@@ -26,7 +27,7 @@ export default function App() {
       );
     default:
       return (
-        <SingIn setPage = {setPage}/>
+        <SingIn setPage = {setPage} setUser={setUser}/>
       );
   }
 }

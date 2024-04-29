@@ -14,7 +14,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import StarIcon from '@mui/icons-material/Star';
 import dbHandler from '../db/dbHandler';
 
-export default function TopRow(setPage) {
+export default function TopRow({ setPage, refresh, setRefresh }) {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const handleOpenUserMenu = (event) => {
@@ -25,10 +25,13 @@ export default function TopRow(setPage) {
         setAnchorElUser(null);
     };
 
-    const bookMarkHandler = () => {
+    const bookMarkHandler = async () => {
+        const inputName = prompt("Please enter your name:");
         const siteContent = document.documentElement.outerHTML;
-        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-            dbHandler.insertUrl(tabs[0].url, siteContent)
+        await chrome.tabs.query({ active: true, currentWindow: true }, async function(tabs) {
+            console.log(tabs[0])
+            await dbHandler.insertUrl(tabs[0].url, siteContent, inputName);
+            setRefresh(!refresh);
         });
     }
     return (
@@ -36,7 +39,7 @@ export default function TopRow(setPage) {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                 <IconButton
-                    onClick={() => {setPage.setPage.setPage('Index')}}>
+                    onClick={() => {setPage.setPage('Index')}}>
                     <AdbIcon fontSize='large' style={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: 'white' }}/>
                 </IconButton>
                 <IconButton style={{marginRight:'0%', color:'white', flexGrow: '1'}} onClick={() => {bookMarkHandler();}}>
@@ -64,10 +67,7 @@ export default function TopRow(setPage) {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                     >
-                    <MenuItem key={'Profile'} onClick={()=>{setPage.setPage.setPage('Profile')}}>
-                        <Typography textAlign="center">{'Profile'}</Typography>
-                    </MenuItem>
-                    <MenuItem key={'Logout'} onClick={()=>{setPage.setPage.setPage('')}}>
+                    <MenuItem key={'Logout'} onClick={()=>{setPage.setPage('')}}>
                         <Typography textAlign="center">{'Logout'}</Typography>
                     </MenuItem>
                     </Menu>
