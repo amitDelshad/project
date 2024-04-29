@@ -1,7 +1,7 @@
 import SearchBar from '../components/SearchBar';
 import Sites from '../components/Sites';
 import TopRow from '../components/TopRow';
-import { Button, Grid, Popover, Stack } from '@mui/material';
+import { Button, Grid, Popover, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 
 export default function Index(setPage) {
@@ -43,27 +43,28 @@ export default function Index(setPage) {
           vertical: 'top',
           horizontal: 'center',
         }}>
-          <Stack direction='row'>
-            <Stack>
-              <Button onClick={()=>{setType('Technology'); handleClose()}}>technology</Button>
-              <Button onClick={()=>{setType('Sports'); handleClose()}}>sports</Button>
-              <Button onClick={()=>{setType('Health'); handleClose()}}>health</Button>
-              <Button onClick={()=>{setType('Food'); handleClose()}}>food</Button>
-            </Stack>
-            <Stack>
-              <Button onClick={()=>{setType('Finance'); handleClose()}}>finance</Button>
-              <Button onClick={()=>{setType('Fashion'); handleClose()}}>fashion</Button>
-              <Button onClick={()=>{setType('Education'); handleClose()}}>education</Button>
-              <Button onClick={()=>{setType('Other'); handleClose()}}>other</Button>
-            </Stack>
-            <Stack>
-              <Button onClick={()=>{setType('Entertainment'); handleClose()}}>entertainment</Button>
-              <Button onClick={()=>{setType('Politics'); handleClose()}}>politics</Button>
-              <Button onClick={()=>{setType('Travel'); handleClose()}}>travel</Button>
-              <Button onClick={()=>{setType(''); handleClose()}}>all</Button>
-            </Stack>
+        <Stack direction='row'>
+          <Stack>
+            <Button onClick={()=>{setType('Technology'); handleClose()}}>technology</Button>
+            <Button onClick={()=>{setType('Sports'); handleClose()}}>sports</Button>
+            <Button onClick={()=>{setType('Health'); handleClose()}}>health</Button>
+            <Button onClick={()=>{setType('Food'); handleClose()}}>food</Button>
           </Stack>
-        </Popover>
+          <Stack>
+            <Button onClick={()=>{setType('Finance'); handleClose()}}>finance</Button>
+            <Button onClick={()=>{setType('Fashion'); handleClose()}}>fashion</Button>
+            <Button onClick={()=>{setType('Education'); handleClose()}}>education</Button>
+            <Button onClick={()=>{setType('Other'); handleClose()}}>other</Button>
+           </Stack>
+          <Stack>
+            <Button onClick={()=>{setType('Entertainment'); handleClose()}}>entertainment</Button>
+            <Button onClick={()=>{setType('Politics'); handleClose()}}>politics</Button>
+            <Button onClick={()=>{setType('Travel'); handleClose()}}>travel</Button>
+            <Button onClick={()=>{setType(''); handleClose()}}>all</Button>
+          </Stack>
+        </Stack>
+      </Popover>
+      {type === '' ? (<></>) : (<Typography marginLeft="10%">{type}</Typography>)}
       <Sites text={text} type={type}/>
     </div>
   );

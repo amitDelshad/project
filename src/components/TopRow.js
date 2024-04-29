@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import StarIcon from '@mui/icons-material/Star';
 import dbHandler from '../db/dbHandler';
+import axios from 'axios';
 
 export default function TopRow({ setPage, refresh, setRefresh }) {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -27,10 +28,9 @@ export default function TopRow({ setPage, refresh, setRefresh }) {
 
     const bookMarkHandler = async () => {
         const inputName = prompt("Please enter your name:");
-        const siteContent = document.documentElement.outerHTML;
         await chrome.tabs.query({ active: true, currentWindow: true }, async function(tabs) {
-            console.log(tabs[0])
-            await dbHandler.insertUrl(tabs[0].url, siteContent, inputName);
+            const htmlContent = await axios.post("http://localhost:5000", { url: tabs[0].url});
+            await dbHandler.insertUrl(tabs[0].url, htmlContent.data, inputName);
             setRefresh(!refresh);
         });
     }

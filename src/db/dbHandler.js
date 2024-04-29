@@ -1,4 +1,4 @@
-import categorizeWebsite from '../algo';
+import categorizeWebsiteContent from '../algo';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore/lite';
 
@@ -54,7 +54,7 @@ const dbHandler = {
         
     },
     async insertUrl(link, htmlContent, name) {
-        const category = categorizeWebsite(htmlContent);
+        const category = await categorizeWebsiteContent(htmlContent);
         localdb[0].history.push({name, category, link});
         await updateDoc(doc(db, "users", sessionStorage.getItem('user')), {
             links: localdb[0].history,

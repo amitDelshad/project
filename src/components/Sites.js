@@ -20,7 +20,6 @@ export default function Sites({text, type}) {
         <Box sx={{ '&::-webkit-scrollbar': {display: 'none',}, overflow: 'auto', maxHeight: '200px', 
                     width: '85%', marginLeft:'7.5%', marginTop:'2%', bgcolor: 'background.paper' }}>
             <nav aria-label="main mailbox folders">
-                {type === '' ? (<></>) : (<Typography>{type}</Typography>)}
                 <List>
                     {dbHandler.getUser().history.map((site) => {
                         if(site.name.startsWith(text) && ( type === '' || site.category.includes(type))){
@@ -32,9 +31,33 @@ export default function Sites({text, type}) {
                                                 <Typography>
                                                     {`${site.name} - ${site.link}`}
                                                 </Typography>
-                                                <Typography>
-                                                    {`Categories: ${site.category}`}
-                                                </Typography>
+                                                {site.category.length <= 4 ? (
+                                                    <Typography>
+                                                        {`Categories: ${site.category}`}
+                                                    </Typography>
+                                                ): site.category.length <= 8 ? (
+                                                    <>
+                                                        <Typography>
+                                                            {`Categories: ${site.category.slice(0, 4)}`}
+                                                        </Typography>
+                                                        <Typography>
+                                                            {`${site.category.slice(4, 8)}`}
+                                                        </Typography>
+                                                    </>
+                                                ): (
+                                                    <>
+                                                        <Typography>
+                                                            {`Categories: ${site.category.slice(0, 4)}`}
+                                                        </Typography>
+                                                        <Typography>
+                                                            {`${site.category.slice(4, 8)}`}
+                                                        </Typography>
+                                                        <Typography>
+                                                            {`${site.category.slice(8)}`}
+                                                        </Typography>
+                                                    </>
+                                                )}
+                                                
                                             </Stack>
                                         </ListItemButton>
                                         <IconButton color='black' onClick={()=>{deleteHandler(site)}}>
